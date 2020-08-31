@@ -1,6 +1,6 @@
 FROM php:7.2-fpm-alpine3.7
 
-LABEL maintainer="harald@urbantrout.io"
+LABEL maintainer="benjamin@krll.de"
 
 ENV COMPOSER_NO_INTERACTION=1
 
