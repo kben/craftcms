@@ -2,7 +2,7 @@
 
 Lightweight Craft CMS 3 Image
 
-Comes with Craft CMS 3 and support for PostgreSQL (`benkrll/craftcms:postgresql`) or MySQL (`benkrll/craftcms:mysql`).
+Comes with Craft CMS 3 and support for PostgreSQL.
 
 Bring your own webserver and database.
 
@@ -15,8 +15,6 @@ Bring your own webserver and database.
 - Completely non-interactive installation of Craft CMS and plugins
 - [redis](#redis)
 - imagemagick
-- If you want to use PostgreSQL use the `benkrll/craftcms:postgresql` image
-- If you want to use MySQL use the `benkrll/craftcms:mysql` image
 
 ## Getting started
 
@@ -49,7 +47,7 @@ services:
       - ./assets:/var/www/html/web/assets # For static assets (media, js and css).
 
   craft:
-    image: benkrll/craftcms:postgresql
+    image: benkrll/craftcms:latest
     depends_on:
       - postgres
     volumes:
@@ -105,84 +103,6 @@ services:
 
 volumes:
   pgdata:
-  redisdata:
-```
-
-#### MySQL Database Example
-
-```yml
-# docker-compose.yml
-version: '2.1'
-
-services:
-  nginx:
-    image: nginx:alpine
-    ports:
-      - 80:80
-    depends_on:
-      - craft
-    volumes_from:
-      - craft
-    volumes:
-      - ./default.conf:/etc/nginx/conf.d/default.conf # nginx configuration (see below)
-      - ./assets:/var/www/html/web/assets # For static assets (media, js and css).
-
-  craft:
-    image: benkrll/craftcms:mysql # Use mysql instead of postgresql
-    depends_on:
-      - mariadb
-    volumes:
-      - ./assets:/var/www/html/web/assets:z
-      - ./backups:/var/www/html/storage/backups # Used for db restore on start.
-      - ./templates:/var/www/html/templates # Craft CMS template files
-      - ./translations:/var/www/html/translations
-      - ./redactor:/var/www/html/config/redactor
-    environment:
-      DEPENDENCIES: >- # additional composer packages
-        yiisoft/yii2-redis
-        craftcms/redactor:2.0.1
-
-      CRAFTCMS_EMAIL: admin@company.com
-      CRAFTCMS_USERNAME: admin
-      CRAFTCMS_PASSWORD: super-secret-password
-      CRAFTCMS_SITENAME: Craft CMS Installation
-      CRAFTCMS_SITEURL: http://dev.project.com # Optional
-
-      AUTO_UPDATE: 'false' # Enable/disable auto updates for all composer packages (including Craft CMS, Default: true)
-
-      REDIS_HOST: redis
-      SESSION_DRIVER: redis
-      CACHE_DRIVER: redis
-
-      DB_DSN: mysql:host=mariadb;dbname=craft
-      DB_SERVER: mariadb
-      DB_NAME: craft
-      DB_USER: craft
-      DB_PASSWORD: secret
-      DB_DATABASE: craft
-      DB_SCHEMA: public
-      DB_DRIVER: mysql
-      DB_PORT: 3306
-      DB_TABLE_PREFIX: ut
-
-  mariadb:
-    image: mariadb:10.1
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: craft
-      MYSQL_PASSWORD: secret
-      MYSQL_DATABASE: craft
-    volumes:
-      # Persistent data
-      - dbdata:/var/lib/mysql
-
-  redis:
-    image: redis:4-alpine
-    volumes:
-      - redisdata:/data
-
-volumes:
-  dbdata:
   redisdata:
 ```
 
