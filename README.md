@@ -2,7 +2,7 @@
 
 Lightweight Craft CMS 3 Image
 
-Comes with Craft CMS 3 and support for PostgreSQL (`kben/craftcms:postgresql`) or MySQL (`kben/craftcms:mysql`).
+Comes with Craft CMS 3 and support for PostgreSQL (`benkrll/craftcms:postgresql`) or MySQL (`benkrll/craftcms:mysql`).
 
 Bring your own webserver and database.
 
@@ -15,8 +15,8 @@ Bring your own webserver and database.
 - Completely non-interactive installation of Craft CMS and plugins
 - [redis](#redis)
 - imagemagick
-- If you want to use PostgreSQL use the `kben/craftcms:postgresql` image
-- If you want to use MySQL use the `kben/craftcms:mysql` image
+- If you want to use PostgreSQL use the `benkrll/craftcms:postgresql` image
+- If you want to use MySQL use the `benkrll/craftcms:mysql` image
 
 ## Getting started
 
@@ -49,7 +49,7 @@ services:
       - ./assets:/var/www/html/web/assets # For static assets (media, js and css).
 
   craft:
-    image: kben/craftcms:postgresql
+    image: benkrll/craftcms:postgresql
     depends_on:
       - postgres
     volumes:
@@ -128,7 +128,7 @@ services:
       - ./assets:/var/www/html/web/assets # For static assets (media, js and css).
 
   craft:
-    image: kben/craftcms:mysql # Use mysql instead of postgresql
+    image: benkrll/craftcms:mysql # Use mysql instead of postgresql
     depends_on:
       - mariadb
     volumes:
